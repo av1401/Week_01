@@ -1,82 +1,65 @@
 import java.util.*;
 
-class GradeCalculator {
+class BMICalculator2{
     public static void main(String[] args) {
         // Create a Scanner object for input
         Scanner input = new Scanner(System.in);
 
-        // Input the number of students
-        System.out.print("Enter the number of students: ");
-        int numStudents = input.nextInt();
+        // Input the number of persons
+        System.out.print("Enter the number of persons: ");
+        int numPersons = input.nextInt();
 
-        // Create arrays to store marks, percentages, and grades
-        double[] physicsMarks = new double[numStudents];
-        double[] chemistryMarks = new double[numStudents];
-        double[] mathsMarks = new double[numStudents];
-        double[] percentages = new double[numStudents];
-        String[] grades = new String[numStudents];
+        // Create a 2D array to store height, weight, and BMI
+        double[][] personData = new double[numPersons][3];
+        String[] weightStatus = new String[numPersons];
 
-        // Input marks for each student
-        for (int i = 0; i < numStudents; i++) {
-            System.out.println("\nEnter marks for student " + (i + 1) + ":");
+        // Input height and weight for each person
+        for (int i = 0; i < numPersons; i++) {
+            System.out.println("\nEnter details for person " + (i + 1) + ":");
 
-            // Input Physics marks
-            System.out.print("Physics marks: ");
-            physicsMarks[i] = input.nextDouble();
-            while (physicsMarks[i] < 0) {
-                System.out.println("Invalid input. Marks cannot be negative.");
-                System.out.print("Physics marks: ");
-                physicsMarks[i] = input.nextDouble();
+            // Input height
+            System.out.print("Height in meters: ");
+            personData[i][0] = input.nextDouble();
+            while (personData[i][0] <= 0) {
+                System.out.println("Invalid height. Please enter a positive value.");
+                System.out.print("Height in meters: ");
+                personData[i][0] = input.nextDouble();
             }
 
-            // Input Chemistry marks
-            System.out.print("Chemistry marks: ");
-            chemistryMarks[i] = input.nextDouble();
-            while (chemistryMarks[i] < 0) {
-                System.out.println("Invalid input. Marks cannot be negative.");
-                System.out.print("Chemistry marks: ");
-                chemistryMarks[i] = input.nextDouble();
+            // Input weight
+            System.out.print("Weight in kg: ");
+            personData[i][1] = input.nextDouble();
+            while (personData[i][1] <= 0) {
+                System.out.println("Invalid weight. Please enter a positive value.");
+                System.out.print("Weight in kg: ");
+                personData[i][1] = input.nextDouble();
             }
 
-            // Input Maths marks
-            System.out.print("Maths marks: ");
-            mathsMarks[i] = input.nextDouble();
-            while (mathsMarks[i] < 0) {
-                System.out.println("Invalid input. Marks cannot be negative.");
-                System.out.print("Maths marks: ");
-                mathsMarks[i] = input.nextDouble();
-            }
+            // Calculate BMI and store it in the array
+            personData[i][2] = Math.round((personData[i][1] / (personData[i][0] * personData[i][0])) * 100.0) / 100.0;
 
-            // Calculate percentage
-            double totalMarks = physicsMarks[i] + chemistryMarks[i] + mathsMarks[i];
-            percentages[i] = (totalMarks / 300) * 100;
-
-            // Determine grade based on percentage
-            if (percentages[i] >= 80) {
-                grades[i] = "A - Remark Level 4, above agency-normalized standard";
-            } else if (percentages[i] >= 70) {
-                grades[i] = "B - Remark Level 3, at-normalized standard";
-            } else if (percentages[i] >= 60) {
-                grades[i] = "C - Remark Level 2, below, but approaching agency-normalized standard";
-            } else if (percentages[i] >= 50) {
-                grades[i] = "D - Remark Level 1, well below agency-normalized standard";
-            } else if (percentages[i] >= 40) {
-                grades[i] = "E - Remark Level 1, too below agency-normalized standard";
+            // Determine weight status
+            if (personData[i][2] <= 18.40) {
+                weightStatus[i] = "Underweight";
+            } else if (personData[i][2]>= 18.5 && personData[i][2] <= 24.99) {
+                weightStatus[i] = "Normal";
+            } else if (personData[i][2]>=25.5 && personData[i][2] <= 39.99) {
+                weightStatus[i] = "Overweight";
             } else {
-                grades[i] = "R - Remark Remedial standards";
+                weightStatus[i] = "Obese";
             }
         }
 
         // Display the results
-        System.out.println("\nMarks, Percentage, and Grades of Students:");
-        System.out.println("Student\tPhysics\tChemistry\tMaths\tPercentage\tGrade");
-        for (int i = 0; i < numStudents; i++) {
-            System.out.println((i + 1) + "\t" +
-                    physicsMarks[i] + "\t\t" +
-                    chemistryMarks[i] + "\t\t" +
-                    mathsMarks[i] + "\t\t" +
-                    percentages[i] + "%\t\t" +
-                    grades[i]);
+        System.out.println("\nHeight (m)\tWeight (kg)\tBMI\t\tStatus");
+        for (int i = 0; i < numPersons; i++) {
+            System.out.println(
+                personData[i][0] + "\t\t" +
+                personData[i][1] + "\t\t" +
+                personData[i][2] + "\t\t" +
+                weightStatus[i]
+            );
         }
     }
 }
+
